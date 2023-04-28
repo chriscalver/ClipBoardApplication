@@ -72,7 +72,7 @@ namespace ClipBoardApplication
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label1.Location = new System.Drawing.Point(111, 29);
+            this.label1.Location = new System.Drawing.Point(106, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(311, 54);
             this.label1.TabIndex = 2;
@@ -91,7 +91,7 @@ namespace ClipBoardApplication
             // button1
             // 
             this.button1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(179, 107);
+            this.button1.Location = new System.Drawing.Point(183, 99);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(94, 29);
             this.button1.TabIndex = 4;

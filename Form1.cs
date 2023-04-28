@@ -29,6 +29,18 @@ namespace ClipBoardApplication
             {
                 richTextBox1.Text = Clipboard.GetText();
             }
+
+            if (Clipboard.ContainsAudio())
+            {
+                richTextBox1.Text = "Audio";
+
+            }
+
+            if (Clipboard.ContainsFileDropList())
+            {
+                richTextBox1.Text = "Audio";
+            }            
+
         }
 
         private void button1_Click(object sender, EventArgs e)
