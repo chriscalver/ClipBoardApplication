@@ -8,15 +8,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace ClipBoardApplication
 {
+
+   // [DefaultEvent("ClipboardChanged")]
+
+
+
+
     public partial class Form1 : Form
     {
-        
+
+
+        // Private conn As MySqlConnection = New MySqlConnection("SERVER=my01.winhost.com; database=mysql_155712_chrisdb; uid=daddy; pwd=wayne999")
+
+
+
         public Form1()
         {
             InitializeComponent();
         }
+
+
+        //ClipBoard clipboard;
+
+
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -47,12 +65,12 @@ namespace ClipBoardApplication
         {     
             if (Clipboard.ContainsText())
             {
-                button1.Visible = false;
+               // button1.Visible = false;
                 label2.Text = "Here's your latest text:";
                 label2.Visible = true;
-                this.Height = 290;
+                //this.Height = 290;
 
-                pictureBox1.Visible = false;
+                //pictureBox1.Visible = false;
 
                 richTextBox1.Visible = true;
                 //richTextBox1.Text = texttest;
@@ -60,13 +78,15 @@ namespace ClipBoardApplication
 
             if (Clipboard.ContainsImage())
             {
-                button1.Visible = false;
+                //button1.Visible = false;
                 label2.Text = "Here's your latest image:";
                 label2.Visible = true;
-                this.Height = 400;
+                //this.Height = 400;
                 pictureBox1.Visible = true;               
 
             }
         }
+
+        
     }
 }
