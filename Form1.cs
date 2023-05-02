@@ -88,10 +88,17 @@ namespace ClipBoardApplication
                             label2.Text = "hey";
                             using (SqlCommand command = new SqlCommand(sql, connection))
                             {
-                               // image = (Bitmap)Clipboard.GetImage();
-                                byte[] imageData = File.ReadAllBytes(image);
+                                // image = (Bitmap)Clipboard.GetImage();
+
+                                MemoryStream stream = new MemoryStream();
+                                pictureBox1.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                                byte[] pic = stream.ToArray();
+
                                 
-                                command.Parameters.AddWithValue("@bmimage", image);
+
+                                //byte[] imageData = File.ReadAllBytes(image);
+
+                                command.Parameters.AddWithValue("@bmimage", pic);
                                 command.ExecuteNonQuery();
 
                                 //command.Parameters.AddWithValue("@image", image);
