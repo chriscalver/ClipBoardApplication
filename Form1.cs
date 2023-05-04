@@ -4,12 +4,16 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.IO;
+using System.Data;
 
 namespace ClipBoardApplication
 {  
     public partial class Form1 : Form
     {
-        
+
+        string connection = "Data Source=tcp:s26.winhost.com;Initial Catalog=DB_155712_2023db;User ID=DB_155712_2023db_user;Password=wayne8888;Integrated Security=False;";
+
+
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -34,19 +38,19 @@ namespace ClipBoardApplication
                 if (iData.GetDataPresent(DataFormats.Text))
                 {
                     string text = (string)iData.GetData(DataFormats.Text);     
-                    pictureBox1.Visible = false;
+                    //pictureBox1.Visible = false;
                     richTextBox1.Visible = true;                    
                     richTextBox1.Text = text;
 
                     try
                     {
-                        String connectionString = "Data Source=tcp:s26.winhost.com;Initial Catalog=DB_155712_2023db;User ID=DB_155712_2023db_user;Password=wayne8888;Integrated Security=False;";
-                        using (SqlConnection connection = new SqlConnection(connectionString))
+                        String connectionString = connection;
+                        using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_4 (Device, ClipBoardText) VALUES ('Laptop', @text)";
+                            String sql = "INSERT INTO Table_4 (Device, ClipBoardText) VALUES ('Studio-PC', @text)";
                             //label2.Text = "hi";
-                            using (SqlCommand command = new SqlCommand(sql, connection))
+                            using (SqlCommand command = new(sql, connection))
                             {
                                 command.Parameters.AddWithValue("@text", text);
                                // command.Parameters.AddWithValue("@age", memberInfo.Age);
@@ -62,22 +66,22 @@ namespace ClipBoardApplication
                 }
                 else if (iData.GetDataPresent(DataFormats.Bitmap))
                 {
-                    richTextBox1.Visible = false;
+                    //richTextBox1.Visible = false;
                     Bitmap image = (Bitmap)iData.GetData(DataFormats.Bitmap);  
                     pictureBox1.Visible = true;
                     pictureBox1.Image = image;
 
                     try
                     {
-                        String connectionString = "Data Source=tcp:s26.winhost.com;Initial Catalog=DB_155712_2023db;User ID=DB_155712_2023db_user;Password=wayne8888;Integrated Security=False;";
-                        using (SqlConnection connection = new SqlConnection(connectionString))
+                        String connectionString = connection;
+                        using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES ('Laptop', @bmimage)";
+                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES ('Studio-PC', @bmimage)";
                             //label2.Text = "hey";
-                            using (SqlCommand command = new SqlCommand(sql, connection))
+                            using (SqlCommand command = new(sql, connection))
                             {
-                                MemoryStream stream = new MemoryStream();
+                                MemoryStream stream = new();
                                 pictureBox1.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
                                 byte[] pic = stream.ToArray();
                                 command.Parameters.AddWithValue("@bmimage", pic);
@@ -116,11 +120,91 @@ namespace ClipBoardApplication
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
             this.WindowState = FormWindowState.Normal;
-            if (this.WindowState == FormWindowState.Normal) ;
+            if (this.WindowState == FormWindowState.Normal)
             {
                 this.ShowInTaskbar = true;
                 notifyIcon1.Visible = false;
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            SqlConnection connect = new SqlConnection (connection);
+            SqlCommand command = new SqlCommand ("SELECT ClipBoardImage FROM Table_4 WHERE ID=7", connect);
+           
+            SqlDataAdapter dp = new(command);
+            DataSet ds = new("MyImages");
+
+            byte[] MyData = new byte[0];
+
+            dp.Fill(ds, "MyImages");
+            DataRow myRow;
+            myRow = ds.Tables["MyImages"].Rows[0];
+
+            MyData = (byte[])myRow["ClipBoardImage"];
+
+            MemoryStream stream = new(MyData);
+            pictureBox1.Visible = true;
+            pictureBox1.Image = Image.FromStream(stream);
+
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            dgvText.BringToFront();
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))
+            {
+
+
+
+                sqlCon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardText FROM Table_4 WHERE ClipBoardText IS NOT NULL", sqlCon);
+                DataTable dtbl = new DataTable();
+                sqlDa.Fill(dtbl);
+
+                dgvText.DataSource = dtbl;
+
+            }
+
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+            dgvImage.BringToFront();
+
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))
+            {
+
+                sqlCon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
+                DataTable dtbl = new DataTable();
+                sqlDa.Fill(dtbl);
+
+                dgvImage.DataSource = dtbl;
+
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))
+            {
+
+                sqlCon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("WITH cte AS(SELECT ID, Device, ClipBoardText, ClipBoardImage, ROW_NUMBER() OVER(PARTITION BY ClipBoardText, ClipBoardImage ORDER BY ID) row_num FROM Table_4) DELETE FROM cte WHERE row_num > 1;", sqlCon);
+                                
+
+            }
+
+
         }
     }
 }
