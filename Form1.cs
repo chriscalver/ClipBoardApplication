@@ -13,7 +13,6 @@ namespace ClipBoardApplication
 
         string connection = "Data Source=tcp:s26.winhost.com;Initial Catalog=DB_155712_2023db;User ID=DB_155712_2023db_user;Password=wayne8888;Integrated Security=False;";
 
-
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -27,6 +26,17 @@ namespace ClipBoardApplication
             _clipboardViewerNext = SetClipboardViewer(this.Handle);  // Adds our form to the chain of clipboard viewers.
         }
         //ClipBoard clipboard;
+       
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);    // Process the message 
@@ -98,38 +108,11 @@ namespace ClipBoardApplication
             }
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ChangeClipboardChain(this.Handle, _clipboardViewerNext);     
-        }
+        //  Buttons Below
 
-        // Below is code for mimizing to the system tray
-
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-            Boolean MousePointerNotOnTaskBar = Screen.GetWorkingArea(this).Contains(Cursor.Position);
-            if (this.WindowState == FormWindowState.Minimized && MousePointerNotOnTaskBar)
-            {
-                notifyIcon1.Icon = SystemIcons.Application;
-                notifyIcon1.BalloonTipText = "KlipBoard Kitty is monitoring your Clipboard";
-                notifyIcon1.ShowBalloonTip(1000);
-                this.ShowInTaskbar = false;
-                notifyIcon1.Visible = true;
-            }        
-        }
-        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
-        {
-            this.WindowState = FormWindowState.Normal;
-            if (this.WindowState == FormWindowState.Normal)
-            {
-                this.ShowInTaskbar = true;
-                notifyIcon1.Visible = false;
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-
             SqlConnection connect = new SqlConnection (connection);
             SqlCommand command = new SqlCommand ("SELECT ClipBoardImage FROM Table_4 WHERE ID=7", connect);
            
@@ -147,64 +130,93 @@ namespace ClipBoardApplication
             MemoryStream stream = new(MyData);
             pictureBox1.Visible = true;
             pictureBox1.Image = Image.FromStream(stream);
-
-
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-
             dgvText.BringToFront();
 
             using (SqlConnection sqlCon = new SqlConnection(connection))
             {
-
-
-
                 sqlCon.Open();
                 SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardText FROM Table_4 WHERE ClipBoardText IS NOT NULL", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
-
                 dgvText.DataSource = dtbl;
-
             }
-
-
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-
             dgvImage.BringToFront();
-
 
             using (SqlConnection sqlCon = new SqlConnection(connection))
             {
-
                 sqlCon.Open();
                 SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
-
                 dgvImage.DataSource = dtbl;
-
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-
-            using (SqlConnection sqlCon = new SqlConnection(connection))
+            try
             {
-
-                sqlCon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("WITH cte AS(SELECT ID, Device, ClipBoardText, ClipBoardImage, ROW_NUMBER() OVER(PARTITION BY ClipBoardText, ClipBoardImage ORDER BY ID) row_num FROM Table_4) DELETE FROM cte WHERE row_num > 1;", sqlCon);
-                                
-
+                String connectionString = connection;
+                using (SqlConnection connection = new(connectionString))
+                {
+                    connection.Open();
+                    String sql = "WITH cte AS ( SELECT CAST(ClipBoardText AS NVARCHAR(100)) ClipBoardText, ROW_NUMBER() OVER( PARTITION BY CAST(ClipBoardText AS NVARCHAR(100)), CAST(ClipBoardImage AS NVARCHAR(100)) ORDER BY CAST(ClipBoardText AS NVARCHAR(100))) row_num FROM Table_4) DELETE FROM cte WHERE row_num > 1;";
+                    label4.Text = "Duplicate Records Deleted";
+                    using (SqlCommand command = new(sql, connection))
+                    {
+                        command.ExecuteNonQuery();
+                    }
+                }
             }
-
-
+            catch (Exception ex)
+            {
+                label2.Text = ex.Message;
+                return;
+            }                        
         }
+
+
+        // Below is code for mimizing to the system tray
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            Boolean MousePointerNotOnTaskBar = Screen.GetWorkingArea(this).Contains(Cursor.Position);
+            if (this.WindowState == FormWindowState.Minimized && MousePointerNotOnTaskBar)
+            {
+                notifyIcon1.Icon = SystemIcons.Application;
+                notifyIcon1.BalloonTipText = "KlipBoard Kitty is monitoring your Clipboard";
+                notifyIcon1.ShowBalloonTip(1000);
+                this.ShowInTaskbar = false;
+                notifyIcon1.Visible = true;
+            }
+        }
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.ShowInTaskbar = true;
+                notifyIcon1.Visible = false;
+            }
+        }
+
+
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            ChangeClipboardChain(this.Handle, _clipboardViewerNext);
+        }
+
+
     }
+
+
 }
