@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using System.Data.SqlClient;
-using System.IO;
-using System.Data;
 
 namespace ClipBoardApplication
-{  
+{
     public partial class Form1 : Form
     {
 
@@ -26,17 +26,32 @@ namespace ClipBoardApplication
             _clipboardViewerNext = SetClipboardViewer(this.Handle);  // Adds our form to the chain of clipboard viewers.
         }
         //ClipBoard clipboard;
-       
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            
+            //dgvImage.BringToFront();
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))
+            {
+                sqlCon.Open();
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
+                DataTable dtbl = new DataTable();
+                sqlDa.Fill(dtbl);
+                dgvImage.DataSource = dtbl;
+            }
+
+        }
+
+
+
+
+
+
+
+
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);    // Process the message 
@@ -47,9 +62,9 @@ namespace ClipBoardApplication
 
                 if (iData.GetDataPresent(DataFormats.Text))
                 {
-                    string text = (string)iData.GetData(DataFormats.Text);     
+                    string text = (string)iData.GetData(DataFormats.Text);
                     //pictureBox1.Visible = false;
-                    richTextBox1.Visible = true;                    
+                    richTextBox1.Visible = true;
                     richTextBox1.Text = text;
 
                     try
@@ -63,8 +78,8 @@ namespace ClipBoardApplication
                             using (SqlCommand command = new(sql, connection))
                             {
                                 command.Parameters.AddWithValue("@text", text);
-                               // command.Parameters.AddWithValue("@age", memberInfo.Age);
-                               command.ExecuteNonQuery();
+                                // command.Parameters.AddWithValue("@age", memberInfo.Age);
+                                command.ExecuteNonQuery();
                             }
                         }
                     }
@@ -77,7 +92,7 @@ namespace ClipBoardApplication
                 else if (iData.GetDataPresent(DataFormats.Bitmap))
                 {
                     //richTextBox1.Visible = false;
-                    Bitmap image = (Bitmap)iData.GetData(DataFormats.Bitmap);  
+                    Bitmap image = (Bitmap)iData.GetData(DataFormats.Bitmap);
                     pictureBox1.Visible = true;
                     pictureBox1.Image = image;
 
@@ -104,7 +119,7 @@ namespace ClipBoardApplication
                         label2.Text = ex.Message;
                         return;
                     }
-                }                
+                }
             }
         }
 
@@ -113,9 +128,9 @@ namespace ClipBoardApplication
 
         private void button1_Click(object sender, EventArgs e)
         {
-            SqlConnection connect = new SqlConnection (connection);
-            SqlCommand command = new SqlCommand ("SELECT ClipBoardImage FROM Table_4 WHERE ID=7", connect);
-           
+            SqlConnection connect = new SqlConnection(connection);
+            SqlCommand command = new SqlCommand("SELECT ClipBoardImage FROM Table_4 WHERE ID=7", connect);
+
             SqlDataAdapter dp = new(command);
             DataSet ds = new("MyImages");
 
@@ -148,16 +163,17 @@ namespace ClipBoardApplication
 
         private void button3_Click(object sender, EventArgs e)
         {
+            dgvImage.Visible = true;
             dgvImage.BringToFront();
 
-            using (SqlConnection sqlCon = new SqlConnection(connection))
-            {
-                sqlCon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
-                DataTable dtbl = new DataTable();
-                sqlDa.Fill(dtbl);
-                dgvImage.DataSource = dtbl;
-            }
+            //using (SqlConnection sqlCon = new SqlConnection(connection))
+            //{
+            //    sqlCon.Open();
+            //    SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
+            //    DataTable dtbl = new DataTable();
+            //    sqlDa.Fill(dtbl);
+            //    dgvImage.DataSource = dtbl;
+            //}
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -180,7 +196,7 @@ namespace ClipBoardApplication
             {
                 label2.Text = ex.Message;
                 return;
-            }                        
+            }
         }
 
 
@@ -214,7 +230,6 @@ namespace ClipBoardApplication
         {
             ChangeClipboardChain(this.Handle, _clipboardViewerNext);
         }
-
 
     }
 

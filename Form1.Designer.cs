@@ -206,6 +206,7 @@ namespace ClipBoardApplication
             this.dgvImage.RowTemplate.Height = 29;
             this.dgvImage.Size = new System.Drawing.Size(769, 478);
             this.dgvImage.TabIndex = 14;
+            this.dgvImage.Visible = false;
             // 
             // button4
             // 
@@ -221,7 +222,7 @@ namespace ClipBoardApplication
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(1148, 117);
+            this.label4.Location = new System.Drawing.Point(983, 117);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(114, 31);
             this.label4.TabIndex = 16;
@@ -255,6 +256,7 @@ namespace ClipBoardApplication
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Meow";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
