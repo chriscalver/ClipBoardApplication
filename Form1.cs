@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -10,6 +12,8 @@ namespace ClipBoardApplication
 {
     public partial class Form1 : Form
     {
+
+        string currentformsize = "";
 
         string connection = "Data Source=tcp:s26.winhost.com;Initial Catalog=DB_155712_2023db;User ID=DB_155712_2023db_user;Password=wayne8888;Integrated Security=False;";
 
@@ -26,21 +30,32 @@ namespace ClipBoardApplication
             _clipboardViewerNext = SetClipboardViewer(this.Handle);  // Adds our form to the chain of clipboard viewers.
         }
         //ClipBoard clipboard;
-        
+
 
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
-            //dgvImage.BringToFront();
+            currentformsize = "small";
+            dgvImage.Visible = true;
 
-            using (SqlConnection sqlCon = new SqlConnection(connection))
+
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
             {
+
+                var valuesList = new ArrayList(); // recommended 
                 sqlCon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
-                DataTable dtbl = new DataTable();
-                sqlDa.Fill(dtbl);
-                dgvImage.DataSource = dtbl;
+
+                SqlCommand command = new SqlCommand("SELECT ID FROM Table_4 WHERE ClipBoardText IS NULL", sqlCon);
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    valuesList.Add(Convert.ToInt32(dataReader[0].ToString()));
+                }
+                //sqlCon.Close();
+                label4.Text = valuesList[4].ToString();
+
             }
 
         }
@@ -161,20 +176,41 @@ namespace ClipBoardApplication
             }
         }
 
+
+
+
+
+
+
         private void button3_Click(object sender, EventArgs e)
         {
+            dgvImage.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvImage.RowHeadersVisible = false;
+
+
+            using (SqlConnection sqlCon = new SqlConnection(connection))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
+            {                
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)", sqlCon);
+                DataTable dtbl = new DataTable();
+                sqlDa.Fill(dtbl);
+                dgvImage.DataSource = dtbl;
+
+            }
+
+            //dgvImage.Columns[0].Width = 40;
+            //dgvImage.Columns[1].Width = 80;
+            //dgvImage.Columns[2].Width = 500;
+            //dgvImage.RowTemplate.Height = 100;
             dgvImage.Visible = true;
             dgvImage.BringToFront();
-
-            //using (SqlConnection sqlCon = new SqlConnection(connection))
-            //{
-            //    sqlCon.Open();
-            //    SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
-            //    DataTable dtbl = new DataTable();
-            //    sqlDa.Fill(dtbl);
-            //    dgvImage.DataSource = dtbl;
-            //}
         }
+
+
+
+
+
+
+
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -199,6 +235,12 @@ namespace ClipBoardApplication
             }
         }
 
+
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
 
         // Below is code for mimizing to the system tray
 
@@ -231,6 +273,44 @@ namespace ClipBoardApplication
             ChangeClipboardChain(this.Handle, _clipboardViewerNext);
         }
 
+        private void label3_Click(object sender, EventArgs e)
+        {
+            //currentformsize = "large";
+
+            if (currentformsize == "small")
+            {
+                this.Size = new Size(700, 730);
+
+                this.Location = new Point(
+                (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
+                (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
+                label3.Location = new Point(630, -2);
+                currentformsize = "large";
+
+            }
+            else
+            {
+
+                this.Size = new Size(460, 200);
+                this.Location = new Point(
+                (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
+                (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
+                label3.Location = new Point(404, -2);
+                currentformsize = "small";
+
+
+                //this.Location = new Point(
+                //(Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
+                // (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
+                // label3.Location = new Point(630, -2);
+
+            }
+
+
+
+
+
+        }
     }
 
 
