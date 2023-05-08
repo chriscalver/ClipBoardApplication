@@ -54,7 +54,7 @@ namespace ClipBoardApplication
                     valuesList.Add(Convert.ToInt32(dataReader[0].ToString()));
                 }
                 //sqlCon.Close();
-                label4.Text = valuesList[4].ToString();
+                //label4.Text = valuesList[4].ToString();
 
             }
 
@@ -105,12 +105,10 @@ namespace ClipBoardApplication
                     }
                 }
                 else if (iData.GetDataPresent(DataFormats.Bitmap))
-                {
-                    //richTextBox1.Visible = false;
+                {                    
                     Bitmap image = (Bitmap)iData.GetData(DataFormats.Bitmap);
                     pictureBox1.Visible = true;
                     pictureBox1.Image = image;
-
                     try
                     {
                         String connectionString = connection;
@@ -122,7 +120,7 @@ namespace ClipBoardApplication
                             using (SqlCommand command = new(sql, connection))
                             {
                                 MemoryStream stream = new();
-                                pictureBox1.Image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
+                                image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
                                 byte[] pic = stream.ToArray();
                                 command.Parameters.AddWithValue("@bmimage", pic);
                                 command.ExecuteNonQuery();
@@ -190,7 +188,7 @@ namespace ClipBoardApplication
 
             using (SqlConnection sqlCon = new SqlConnection(connection))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
             {                
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)", sqlCon);
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ClipBoardImage IS NOT NULL", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvImage.DataSource = dtbl;
@@ -200,7 +198,7 @@ namespace ClipBoardApplication
             //dgvImage.Columns[0].Width = 40;
             //dgvImage.Columns[1].Width = 80;
             //dgvImage.Columns[2].Width = 500;
-            //dgvImage.RowTemplate.Height = 100;
+            //dgvImage.RowTemplate.Height = 500;
             dgvImage.Visible = true;
             dgvImage.BringToFront();
         }
