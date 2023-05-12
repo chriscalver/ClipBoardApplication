@@ -44,12 +44,12 @@ namespace ClipBoardApplication
             checkBox1 = new System.Windows.Forms.CheckBox();
             toolTip1 = new System.Windows.Forms.ToolTip(components);
             label3 = new System.Windows.Forms.Label();
-            button1 = new System.Windows.Forms.Button();
-            button2 = new System.Windows.Forms.Button();
+            ViewSavedImage = new System.Windows.Forms.Button();
+            ViewTextEntries = new System.Windows.Forms.Button();
             dgvText = new System.Windows.Forms.DataGridView();
-            button3 = new System.Windows.Forms.Button();
+            ViewImageEntries = new System.Windows.Forms.Button();
             dgvImage = new System.Windows.Forms.DataGridView();
-            button4 = new System.Windows.Forms.Button();
+            DeleteDuplicateRecords = new System.Windows.Forms.Button();
             label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -60,9 +60,9 @@ namespace ClipBoardApplication
             // pictureBox1
             // 
             pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            pictureBox1.Location = new System.Drawing.Point(540, 560);
+            pictureBox1.Location = new System.Drawing.Point(21, 151);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new System.Drawing.Size(127, 78);
+            pictureBox1.Size = new System.Drawing.Size(646, 374);
             pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
@@ -70,9 +70,9 @@ namespace ClipBoardApplication
             // richTextBox1
             // 
             richTextBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            richTextBox1.Location = new System.Drawing.Point(391, 560);
+            richTextBox1.Location = new System.Drawing.Point(21, 151);
             richTextBox1.Name = "richTextBox1";
-            richTextBox1.Size = new System.Drawing.Size(118, 78);
+            richTextBox1.Size = new System.Drawing.Size(646, 374);
             richTextBox1.TabIndex = 1;
             richTextBox1.Text = "";
             // 
@@ -119,7 +119,7 @@ namespace ClipBoardApplication
             checkBox1.Checked = true;
             checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            checkBox1.Location = new System.Drawing.Point(32, 117);
+            checkBox1.Location = new System.Drawing.Point(30, 107);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new System.Drawing.Size(110, 24);
             checkBox1.TabIndex = 8;
@@ -138,25 +138,25 @@ namespace ClipBoardApplication
             toolTip1.SetToolTip(label3, "Options");
             label3.Click += label3_Click;
             // 
-            // button1
+            // ViewSavedImage
             // 
-            button1.Location = new System.Drawing.Point(188, 609);
-            button1.Name = "button1";
-            button1.Size = new System.Drawing.Size(155, 29);
-            button1.TabIndex = 10;
-            button1.Text = "View Saved Pic";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            ViewSavedImage.Location = new System.Drawing.Point(357, 560);
+            ViewSavedImage.Name = "ViewSavedImage";
+            ViewSavedImage.Size = new System.Drawing.Size(155, 29);
+            ViewSavedImage.TabIndex = 10;
+            ViewSavedImage.Text = "View Saved Pic";
+            ViewSavedImage.UseVisualStyleBackColor = true;
+            ViewSavedImage.Click += button1_Click;
             // 
-            // button2
+            // ViewTextEntries
             // 
-            button2.Location = new System.Drawing.Point(21, 560);
-            button2.Name = "button2";
-            button2.Size = new System.Drawing.Size(155, 29);
-            button2.TabIndex = 11;
-            button2.Text = "View Text Data";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            ViewTextEntries.Location = new System.Drawing.Point(21, 560);
+            ViewTextEntries.Name = "ViewTextEntries";
+            ViewTextEntries.Size = new System.Drawing.Size(155, 29);
+            ViewTextEntries.TabIndex = 11;
+            ViewTextEntries.Text = "View Text Data";
+            ViewTextEntries.UseVisualStyleBackColor = true;
+            ViewTextEntries.Click += button2_Click;
             // 
             // dgvText
             // 
@@ -173,7 +173,7 @@ namespace ClipBoardApplication
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             dgvText.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvText.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvText.Location = new System.Drawing.Point(21, 164);
+            dgvText.Location = new System.Drawing.Point(21, 151);
             dgvText.Name = "dgvText";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
@@ -188,15 +188,15 @@ namespace ClipBoardApplication
             dgvText.Size = new System.Drawing.Size(646, 374);
             dgvText.TabIndex = 12;
             // 
-            // button3
+            // ViewImageEntries
             // 
-            button3.Location = new System.Drawing.Point(188, 560);
-            button3.Name = "button3";
-            button3.Size = new System.Drawing.Size(155, 29);
-            button3.TabIndex = 13;
-            button3.Text = "View Image Data";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            ViewImageEntries.Location = new System.Drawing.Point(188, 560);
+            ViewImageEntries.Name = "ViewImageEntries";
+            ViewImageEntries.Size = new System.Drawing.Size(155, 29);
+            ViewImageEntries.TabIndex = 13;
+            ViewImageEntries.Text = "View Image Data";
+            ViewImageEntries.UseVisualStyleBackColor = true;
+            ViewImageEntries.Click += button3_Click;
             // 
             // dgvImage
             // 
@@ -213,7 +213,7 @@ namespace ClipBoardApplication
             dgvImage.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvImage.ColumnHeadersHeight = 29;
             dgvImage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvImage.Location = new System.Drawing.Point(21, 164);
+            dgvImage.Location = new System.Drawing.Point(21, 151);
             dgvImage.Name = "dgvImage";
             dgvImage.RightToLeft = System.Windows.Forms.RightToLeft.No;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -230,45 +230,46 @@ namespace ClipBoardApplication
             dgvImage.Size = new System.Drawing.Size(646, 374);
             dgvImage.TabIndex = 17;
             // 
-            // button4
+            // DeleteDuplicateRecords
             // 
-            button4.Location = new System.Drawing.Point(21, 609);
-            button4.Name = "button4";
-            button4.Size = new System.Drawing.Size(155, 29);
-            button4.TabIndex = 15;
-            button4.Text = "Delete Duplicates";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
+            DeleteDuplicateRecords.Location = new System.Drawing.Point(21, 609);
+            DeleteDuplicateRecords.Name = "DeleteDuplicateRecords";
+            DeleteDuplicateRecords.Size = new System.Drawing.Size(155, 29);
+            DeleteDuplicateRecords.TabIndex = 15;
+            DeleteDuplicateRecords.Text = "Delete Duplicates";
+            DeleteDuplicateRecords.UseVisualStyleBackColor = true;
+            DeleteDuplicateRecords.Click += button4_Click;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(21, 654);
+            label4.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            label4.Location = new System.Drawing.Point(21, 528);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(50, 20);
+            label4.Size = new System.Drawing.Size(82, 17);
             label4.TabIndex = 18;
-            label4.Text = "label4";
+            label4.Text = "Debug Label";
             // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(442, 153);
+            ClientSize = new System.Drawing.Size(692, 665);
+            Controls.Add(pictureBox1);
             Controls.Add(label4);
-            Controls.Add(dgvImage);
-            Controls.Add(button4);
-            Controls.Add(button3);
+            Controls.Add(DeleteDuplicateRecords);
+            Controls.Add(ViewImageEntries);
             Controls.Add(dgvText);
-            Controls.Add(button2);
-            Controls.Add(button1);
+            Controls.Add(ViewTextEntries);
+            Controls.Add(ViewSavedImage);
             Controls.Add(label3);
             Controls.Add(checkBox1);
             Controls.Add(pictureBox2);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(richTextBox1);
-            Controls.Add(pictureBox1);
+            Controls.Add(dgvImage);
             ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
@@ -298,12 +299,12 @@ namespace ClipBoardApplication
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button ViewSavedImage;
+        private System.Windows.Forms.Button ViewTextEntries;
         private System.Windows.Forms.DataGridView dgvText;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button ViewImageEntries;
         private System.Windows.Forms.DataGridView dgvImage;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button DeleteDuplicateRecords;
         private System.Windows.Forms.Label label4;
     }
 }
