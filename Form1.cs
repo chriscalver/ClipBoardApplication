@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -10,12 +9,16 @@ using System.Windows.Forms;
 
 namespace ClipBoardApplication
 {
+
+
     public partial class Form1 : Form
     {
 
+        public static string passer = "";
+
         string currentformsize = "";
 
-        string connection2 = System.Configuration.ConfigurationManager.ConnectionStrings["myConStr"].ConnectionString;
+        public static string connection2 = System.Configuration.ConfigurationManager.ConnectionStrings["myConStr"].ConnectionString;
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
@@ -44,7 +47,7 @@ namespace ClipBoardApplication
             currentformsize = "small";
             dgvImage.Visible = true;
 
-            this.Size = new Size(460, 200);
+            this.Size = new Size(460, 195);
 
 
             this.Location = new Point(
@@ -182,6 +185,7 @@ namespace ClipBoardApplication
 
             MemoryStream stream = new(MyData);
             pictureBox1.Visible = true;
+            pictureBox1.BringToFront();
             pictureBox1.Image = Image.FromStream(stream);
         }
 
@@ -225,10 +229,22 @@ namespace ClipBoardApplication
 
             }
 
-            //dgvImage.Columns[0].Width = 40;
-            //dgvImage.Columns[1].Width = 80;
-            dgvImage.Columns[2].Width = 380;
-            //dgvImage.RowTemplate.Height = 500;
+            dgvImage.Columns[0].Width = 40;
+            dgvImage.Columns[1].Width = 80;
+            dgvImage.Columns[2].Width = 500;
+
+
+            //dgvImage.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+
+
+
+            //dgvImage.Columns[2].ImageLayout = DataGridViewImageCellLayout.Stretch;
+            //dgvImage.Columns[2].DefaultCellStyle.Format.
+
+
+            //dgvImage.RowTemplate.Height = 100;
+
+
             dgvImage.Visible = true;
             dgvImage.BringToFront();
         }
@@ -256,7 +272,7 @@ namespace ClipBoardApplication
                     String sql = "WITH cte AS ( SELECT CAST(ClipBoardImage AS NVARCHAR(100)) ClipBoardImage, ROW_NUMBER() OVER( PARTITION BY CAST(ClipBoardImage AS NVARCHAR(100)), CAST(ClipBoardImage AS NVARCHAR(100)) ORDER BY CAST(ClipBoardImage AS NVARCHAR(100))) row_num FROM Table_4) DELETE FROM cte WHERE row_num > 1;";
                     String sql2 = "WITH cte AS ( SELECT CAST(ClipBoardText AS NVARCHAR(100)) ClipBoardText, ROW_NUMBER() OVER( PARTITION BY CAST(ClipBoardText AS NVARCHAR(100)), CAST(ClipBoardText AS NVARCHAR(100)) ORDER BY CAST(ClipBoardText AS NVARCHAR(100))) row_num FROM Table_5) DELETE FROM cte WHERE row_num > 1;";
 
-                        
+
                     using (SqlCommand command = new(sql, connection))
                     {
                         command.ExecuteNonQuery();
@@ -333,12 +349,12 @@ namespace ClipBoardApplication
 
             if (currentformsize == "small")
             {
-                this.Size = new Size(705, 730);
+                this.Size = new Size(705, 655);
 
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
-                label3.Location = new Point(630, -2);
+                label3.Location = new Point(635, -2);
                 currentformsize = "large";
 
             }
@@ -349,10 +365,55 @@ namespace ClipBoardApplication
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
-                label3.Location = new Point(404, -2);
+                label3.Location = new Point(394, -2);
                 currentformsize = "small";
 
             }
+
+        }
+
+        private void dgvImage_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int id = Convert.ToInt32(dgvImage.Rows[e.RowIndex].Cells["ID"].FormattedValue);
+
+            //SqlConnection connect = new SqlConnection(connection2);
+            //SqlCommand command = new SqlCommand("SELECT ClipBoardImage FROM Table_4 WHERE ID='" + id + "'", connect);
+
+            //SqlDataAdapter dp = new(command);
+            //DataSet ds = new("MyImages");
+
+            //byte[] MyData = new byte[0];
+
+            //dp.Fill(ds, "MyImages");
+            //DataRow myRow;
+            //myRow = ds.Tables["MyImages"].Rows[0];
+
+            //MyData = (byte[])myRow["ClipBoardImage"];
+
+            //MemoryStream stream = new(MyData);
+            ////pictureBox1.Visible = true;
+            ////pictureBox1.BringToFront();
+
+            //pictureBox3.Image = Image.FromStream(stream);
+
+            label4.Text = id.ToString();
+            passer = id.ToString();
+
+            Form2 frm2 = new Form2();
+            frm2.Show();
+
+            //using (Form2 form2 = new Form2())
+            //{
+            //    if (form2.ShowDialog() == DialogResult.OK)
+            //    {
+            //        //label4.Text = form2.TheValue;
+            //    }
+            //}   
+
+
+
+
+
 
         }
     }

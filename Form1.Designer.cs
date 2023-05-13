@@ -35,6 +35,8 @@ namespace ClipBoardApplication
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             pictureBox1 = new System.Windows.Forms.PictureBox();
             richTextBox1 = new System.Windows.Forms.RichTextBox();
             label1 = new System.Windows.Forms.Label();
@@ -51,10 +53,12 @@ namespace ClipBoardApplication
             dgvImage = new System.Windows.Forms.DataGridView();
             DeleteDuplicateRecords = new System.Windows.Forms.Button();
             label4 = new System.Windows.Forms.Label();
+            pictureBox3 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvText).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvImage).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -70,7 +74,7 @@ namespace ClipBoardApplication
             // richTextBox1
             // 
             richTextBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            richTextBox1.Location = new System.Drawing.Point(21, 151);
+            richTextBox1.Location = new System.Drawing.Point(20, 151);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new System.Drawing.Size(646, 374);
             richTextBox1.TabIndex = 1;
@@ -140,7 +144,7 @@ namespace ClipBoardApplication
             // 
             // ViewSavedImage
             // 
-            ViewSavedImage.Location = new System.Drawing.Point(357, 560);
+            ViewSavedImage.Location = new System.Drawing.Point(511, 560);
             ViewSavedImage.Name = "ViewSavedImage";
             ViewSavedImage.Size = new System.Drawing.Size(155, 29);
             ViewSavedImage.TabIndex = 10;
@@ -190,7 +194,7 @@ namespace ClipBoardApplication
             // 
             // ViewImageEntries
             // 
-            ViewImageEntries.Location = new System.Drawing.Point(188, 560);
+            ViewImageEntries.Location = new System.Drawing.Point(185, 560);
             ViewImageEntries.Name = "ViewImageEntries";
             ViewImageEntries.Size = new System.Drawing.Size(155, 29);
             ViewImageEntries.TabIndex = 13;
@@ -203,6 +207,7 @@ namespace ClipBoardApplication
             dgvImage.BackgroundColor = System.Drawing.Color.White;
             dgvImage.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dgvImage.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
+            dgvImage.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -213,26 +218,37 @@ namespace ClipBoardApplication
             dgvImage.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             dgvImage.ColumnHeadersHeight = 29;
             dgvImage.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            dgvImage.DefaultCellStyle = dataGridViewCellStyle4;
             dgvImage.Location = new System.Drawing.Point(21, 151);
             dgvImage.Name = "dgvImage";
             dgvImage.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            dgvImage.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            dgvImage.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgvImage.RowHeadersWidth = 51;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            dgvImage.RowsDefaultCellStyle = dataGridViewCellStyle6;
             dgvImage.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.TopLeft;
-            dgvImage.RowTemplate.Height = 80;
+            dgvImage.RowTemplate.Height = 100;
             dgvImage.Size = new System.Drawing.Size(646, 374);
             dgvImage.TabIndex = 17;
+            dgvImage.CellClick += dgvImage_CellClick;
             // 
             // DeleteDuplicateRecords
             // 
-            DeleteDuplicateRecords.Location = new System.Drawing.Point(21, 609);
+            DeleteDuplicateRecords.Location = new System.Drawing.Point(348, 560);
             DeleteDuplicateRecords.Name = "DeleteDuplicateRecords";
             DeleteDuplicateRecords.Size = new System.Drawing.Size(155, 29);
             DeleteDuplicateRecords.TabIndex = 15;
@@ -250,17 +266,25 @@ namespace ClipBoardApplication
             label4.TabIndex = 18;
             label4.Text = "Debug Label";
             // 
+            // pictureBox3
+            // 
+            pictureBox3.Location = new System.Drawing.Point(430, 47);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new System.Drawing.Size(236, 98);
+            pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            pictureBox3.TabIndex = 19;
+            pictureBox3.TabStop = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
-            ClientSize = new System.Drawing.Size(692, 665);
-            Controls.Add(pictureBox1);
+            ClientSize = new System.Drawing.Size(692, 604);
+            Controls.Add(pictureBox3);
             Controls.Add(label4);
             Controls.Add(DeleteDuplicateRecords);
             Controls.Add(ViewImageEntries);
-            Controls.Add(dgvText);
             Controls.Add(ViewTextEntries);
             Controls.Add(ViewSavedImage);
             Controls.Add(label3);
@@ -270,6 +294,8 @@ namespace ClipBoardApplication
             Controls.Add(label1);
             Controls.Add(richTextBox1);
             Controls.Add(dgvImage);
+            Controls.Add(pictureBox1);
+            Controls.Add(dgvText);
             ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
@@ -284,6 +310,7 @@ namespace ClipBoardApplication
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvText).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvImage).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -306,6 +333,7 @@ namespace ClipBoardApplication
         private System.Windows.Forms.DataGridView dgvImage;
         private System.Windows.Forms.Button DeleteDuplicateRecords;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 
