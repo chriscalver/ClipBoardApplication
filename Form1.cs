@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -161,6 +162,7 @@ namespace ClipBoardApplication
             pictureBox1.Visible = true;
             pictureBox1.BringToFront();
             pictureBox1.Image = Image.FromStream(stream);
+            label4.Text = "Current Favourite Image";
         }
 
         //Pulls up Tetxt Data 
@@ -176,6 +178,7 @@ namespace ClipBoardApplication
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvText.DataSource = dtbl;
+                label4.Text = "Clipboard Text History";
             }
         }
 
@@ -198,6 +201,7 @@ namespace ClipBoardApplication
             dgvImage.Columns[2].Width = 500;
             dgvImage.Visible = true;
             dgvImage.BringToFront();
+            label4.Text = "Clipboard Image History";
         }
 
         //Deletes duplicate record in DB
@@ -222,7 +226,7 @@ namespace ClipBoardApplication
                     {
                         command.ExecuteNonQuery();
                     }
-                    label4.Text = "Duplicate Records Deleted";
+                    label4.Text = "Litterbox Cleaned";
                 }
             }
             catch (Exception ex)
@@ -230,6 +234,15 @@ namespace ClipBoardApplication
                 label2.Text = ex.Message;
                 return;
             }
+        }
+
+
+        //Favorite Text 
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Clipboard.SetText("chriscalver@hotmail.com");
+            label4.Text = "Current Favourite Text";
         }
 
 
@@ -276,7 +289,8 @@ namespace ClipBoardApplication
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
-                label3.Location = new Point(635, -2);
+                label3.Location = new Point(605, -2);
+                label3.Text = "[Less...]";
                 currentformsize = "large";
             }
             else
@@ -285,8 +299,10 @@ namespace ClipBoardApplication
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
-                label3.Location = new Point(394, -2);
+                label3.Text = "[More...]";
+                label3.Location = new Point(365, 1);
                 currentformsize = "small";
+
             }
         }
 
@@ -301,7 +317,22 @@ namespace ClipBoardApplication
         }
         private void label4_Click_1(object sender, EventArgs e)
         {
-            Clipboard.SetText("Bitch");
+            //Clipboard.SetText("Bitch");
+        }
+                
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                _clipboardViewerNext = SetClipboardViewer(this.Handle);
+                checkBox1.Text = "Monitoring On";
+            }
+            else
+            {
+                ChangeClipboardChain(this.Handle, _clipboardViewerNext);
+                checkBox1.Text = "Monitoring Off";
+            }
         }
     }
 }

@@ -53,6 +53,7 @@ namespace ClipBoardApplication
             dgvImage = new System.Windows.Forms.DataGridView();
             DeleteDuplicateRecords = new System.Windows.Forms.Button();
             label4 = new System.Windows.Forms.Label();
+            button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvText).BeginInit();
@@ -124,26 +125,26 @@ namespace ClipBoardApplication
             checkBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             checkBox1.Location = new System.Drawing.Point(30, 103);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new System.Drawing.Size(110, 24);
+            checkBox1.Size = new System.Drawing.Size(134, 24);
             checkBox1.TabIndex = 8;
-            checkBox1.Text = "Monitoring";
+            checkBox1.Text = "Monitoring On";
             checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label3.Location = new System.Drawing.Point(394, -2);
+            label3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            label3.Location = new System.Drawing.Point(365, 1);
             label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(32, 31);
+            label3.Size = new System.Drawing.Size(70, 20);
             label3.TabIndex = 9;
-            label3.Text = "...";
-            toolTip1.SetToolTip(label3, "Options");
+            label3.Text = "[More...]";
             label3.Click += label3_Click;
             // 
             // ViewSavedImage
             // 
-            ViewSavedImage.Location = new System.Drawing.Point(511, 564);
+            ViewSavedImage.Location = new System.Drawing.Point(346, 564);
             ViewSavedImage.Name = "ViewSavedImage";
             ViewSavedImage.Size = new System.Drawing.Size(155, 29);
             ViewSavedImage.TabIndex = 10;
@@ -193,7 +194,7 @@ namespace ClipBoardApplication
             // 
             // ViewImageEntries
             // 
-            ViewImageEntries.Location = new System.Drawing.Point(185, 564);
+            ViewImageEntries.Location = new System.Drawing.Point(184, 564);
             ViewImageEntries.Name = "ViewImageEntries";
             ViewImageEntries.Size = new System.Drawing.Size(155, 29);
             ViewImageEntries.TabIndex = 13;
@@ -247,7 +248,7 @@ namespace ClipBoardApplication
             // 
             // DeleteDuplicateRecords
             // 
-            DeleteDuplicateRecords.Location = new System.Drawing.Point(348, 564);
+            DeleteDuplicateRecords.Location = new System.Drawing.Point(508, 100);
             DeleteDuplicateRecords.Name = "DeleteDuplicateRecords";
             DeleteDuplicateRecords.Size = new System.Drawing.Size(155, 29);
             DeleteDuplicateRecords.TabIndex = 15;
@@ -258,19 +259,30 @@ namespace ClipBoardApplication
             // label4
             // 
             label4.AutoSize = true;
-            label4.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            label4.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             label4.Location = new System.Drawing.Point(21, 538);
             label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(82, 17);
+            label4.Size = new System.Drawing.Size(86, 17);
             label4.TabIndex = 18;
             label4.Text = "Debug Label";
             label4.Click += label4_Click_1;
+            // 
+            // button1
+            // 
+            button1.Location = new System.Drawing.Point(508, 564);
+            button1.Name = "button1";
+            button1.Size = new System.Drawing.Size(155, 29);
+            button1.TabIndex = 19;
+            button1.Text = "View Saved Text";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
             // 
             // Form1
             // 
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(692, 604);
+            Controls.Add(button1);
             Controls.Add(label4);
             Controls.Add(DeleteDuplicateRecords);
             Controls.Add(ViewImageEntries);
@@ -321,6 +333,7 @@ namespace ClipBoardApplication
         private System.Windows.Forms.DataGridView dgvImage;
         private System.Windows.Forms.Button DeleteDuplicateRecords;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
     }
 }
 
