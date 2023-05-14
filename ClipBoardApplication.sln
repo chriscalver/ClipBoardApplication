@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33423.256
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClipBoardApplication", "ClipBoardApplication.csproj", "{46EDCD73-32AF-421B-B500-EAD2303FFDF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClipBoardApplication", "ClipBoardApplication.csproj", "{46EDCD73-32AF-421B-B500-EAD2303FFDF8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "KlipBoardKittySetup", "..\KlipBoardKittySetup\KlipBoardKittySetup.vdproj", "{A2A97456-FE2D-4A91-A39E-8CDD46F2B2AF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{46EDCD73-32AF-421B-B500-EAD2303FFDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46EDCD73-32AF-421B-B500-EAD2303FFDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46EDCD73-32AF-421B-B500-EAD2303FFDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A97456-FE2D-4A91-A39E-8CDD46F2B2AF}.Debug|Any CPU.ActiveCfg = Debug
+		{A2A97456-FE2D-4A91-A39E-8CDD46F2B2AF}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

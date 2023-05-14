@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace ClipBoardApplication
@@ -16,9 +17,7 @@ namespace ClipBoardApplication
 
         public static string passer = "";
         public static string deviceName = Environment.MachineName;
-
         string currentformsize = "";
-
         public static string connection2 = System.Configuration.ConfigurationManager.ConnectionStrings["myConStr"].ConnectionString;
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -35,23 +34,16 @@ namespace ClipBoardApplication
         }
         //ClipBoard clipboard;
 
-
         private void Form1_Load(object sender, EventArgs e)
         {
-
-            //connection2 = System.Configuration.ConfigurationManager.ConnectionStrings["myConStr"].ConnectionString;
-            //label4.Text = connection2;
+            label4.Text = deviceName;
             currentformsize = "small";
             dgvImage.Visible = true;
-
-            this.Size = new Size(460, 195);
+            this.Size = new Size(460, 185);
             this.TopMost = true;
-
             this.Location = new Point(
             (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
             (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
-            //label3.Location = new Point(404, -2);
-            //currentformsize = "small";
 
             //GRABS ROWS THAT CONTAIN iMAGES From table4
             //PUTS THE id'S into an array
@@ -61,21 +53,15 @@ namespace ClipBoardApplication
 
                 var valuesList = new ArrayList(); // recommended 
                 sqlCon.Open();
-
                 SqlCommand command = new SqlCommand("SELECT ID FROM Table_4", sqlCon);
                 SqlDataReader dataReader = command.ExecuteReader();
-
                 while (dataReader.Read())
                 {
                     valuesList.Add(Convert.ToInt32(dataReader[0].ToString()));
                 }
-
-                //label4.Text = valuesList[4].ToString();
-                label4.Text = deviceName;
+                //label4.Text = valuesList[4].ToString();                
             }
-
         }
-
 
 
         //This function monitors the clipboard for changesd
@@ -103,11 +89,12 @@ namespace ClipBoardApplication
                         using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES (deviceName, @text)";
+                            String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES (@deviceName, @text)";
 
                             using (SqlCommand command = new(sql, connection))
                             {
                                 command.Parameters.AddWithValue("@text", text);
+                                command.Parameters.AddWithValue("@deviceName", deviceName);
                                 command.ExecuteNonQuery();
                             }
                         }
@@ -131,7 +118,7 @@ namespace ClipBoardApplication
                         using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES (deviceName, @bmimage)";
+                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES (@deviceName, @bmimage)";
                             //label4.Text = "";
                             using (SqlCommand command = new(sql, connection))
                             {
@@ -139,6 +126,7 @@ namespace ClipBoardApplication
                                 image.Save(stream, System.Drawing.Imaging.ImageFormat.Bmp);
                                 byte[] pic = stream.ToArray();
                                 command.Parameters.AddWithValue("@bmimage", pic);
+                                command.Parameters.AddWithValue("@deviceName", deviceName);
                                 command.ExecuteNonQuery();
                             }
                         }
@@ -152,9 +140,6 @@ namespace ClipBoardApplication
             }
         }
 
-
-
-
         //  Buttons Below
 
 
@@ -165,33 +150,25 @@ namespace ClipBoardApplication
         {
             SqlConnection connect = new SqlConnection(connection2);
             SqlCommand command = new SqlCommand("SELECT ClipBoardImage FROM Table_4 WHERE ID=471", connect);
-
             SqlDataAdapter dp = new(command);
             DataSet ds = new("MyImages");
-
             byte[] MyData = new byte[0];
-
             dp.Fill(ds, "MyImages");
             DataRow myRow;
             myRow = ds.Tables["MyImages"].Rows[0];
-
             MyData = (byte[])myRow["ClipBoardImage"];
-
             MemoryStream stream = new(MyData);
             pictureBox1.Visible = true;
             pictureBox1.BringToFront();
             pictureBox1.Image = Image.FromStream(stream);
         }
 
-
         //Pulls up Tetxt Data 
         //Displays in DataGridView
-
 
         private void button2_Click(object sender, EventArgs e)
         {
             dgvText.BringToFront();
-
             using (SqlConnection sqlCon = new SqlConnection(connection2))
             {
                 sqlCon.Open();
@@ -202,9 +179,6 @@ namespace ClipBoardApplication
             }
         }
 
-
-
-
         //Pulls up dIamage Data
         //Displays in DataGridView
 
@@ -212,47 +186,21 @@ namespace ClipBoardApplication
         {
             dgvImage.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvImage.RowHeadersVisible = false;
-
-
             using (SqlConnection sqlCon = new SqlConnection(connection2))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
             {
                 SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvImage.DataSource = dtbl;
-
             }
-
             dgvImage.Columns[0].Width = 40;
             dgvImage.Columns[1].Width = 80;
             dgvImage.Columns[2].Width = 500;
-
-
-            //dgvImage.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-
-
-
-            //dgvImage.Columns[2].ImageLayout = DataGridViewImageCellLayout.Stretch;
-            //dgvImage.Columns[2].DefaultCellStyle.Format.
-
-
-            //dgvImage.RowTemplate.Height = 100;
-
-
             dgvImage.Visible = true;
             dgvImage.BringToFront();
         }
 
-
-
-
-
-
-
-
-
         //Deletes duplicate record in DB
-
 
         private void button4_Click(object sender, EventArgs e)
         {
@@ -266,17 +214,14 @@ namespace ClipBoardApplication
                     String sql = "WITH cte AS ( SELECT CAST(ClipBoardImage AS NVARCHAR(100)) ClipBoardImage, ROW_NUMBER() OVER( PARTITION BY CAST(ClipBoardImage AS NVARCHAR(100)), CAST(ClipBoardImage AS NVARCHAR(100)) ORDER BY CAST(ClipBoardImage AS NVARCHAR(100))) row_num FROM Table_4) DELETE FROM cte WHERE row_num > 1;";
                     String sql2 = "WITH cte AS ( SELECT CAST(ClipBoardText AS NVARCHAR(100)) ClipBoardText, ROW_NUMBER() OVER( PARTITION BY CAST(ClipBoardText AS NVARCHAR(100)), CAST(ClipBoardText AS NVARCHAR(100)) ORDER BY CAST(ClipBoardText AS NVARCHAR(100))) row_num FROM Table_5) DELETE FROM cte WHERE row_num > 1;";
 
-
                     using (SqlCommand command = new(sql, connection))
                     {
                         command.ExecuteNonQuery();
                     }
-
                     using (SqlCommand command = new(sql2, connection))
                     {
                         command.ExecuteNonQuery();
                     }
-
                     label4.Text = "Duplicate Records Deleted";
                 }
             }
@@ -285,31 +230,26 @@ namespace ClipBoardApplication
                 label2.Text = ex.Message;
                 return;
             }
-
         }
-
-
-
 
 
         // Below is code for mimizing to the system tray
         // 
 
-
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            Boolean MousePointerNotOnTaskBar = Screen.GetWorkingArea(this).Contains(Cursor.Position);
-            if (this.WindowState == FormWindowState.Minimized && MousePointerNotOnTaskBar)
+
+            if (this.WindowState == FormWindowState.Minimized)
             {
-                notifyIcon1.Icon = SystemIcons.Application;
+                Hide();
+                notifyIcon1.Visible = true;
                 notifyIcon1.BalloonTipText = "KlipBoard Kitty is monitoring your Clipboard";
                 notifyIcon1.ShowBalloonTip(1000);
-                this.ShowInTaskbar = false;
-                notifyIcon1.Visible = true;
             }
         }
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
+            this.Show();
             this.WindowState = FormWindowState.Normal;
             if (this.WindowState == FormWindowState.Normal)
             {
@@ -327,66 +267,41 @@ namespace ClipBoardApplication
 
         //Shows or hides larger form
 
-
         private void label3_Click(object sender, EventArgs e)
         {
 
             if (currentformsize == "small")
             {
                 this.Size = new Size(705, 655);
-
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
                 label3.Location = new Point(635, -2);
                 currentformsize = "large";
-
             }
             else
             {
-
-                this.Size = new Size(460, 195);
+                this.Size = new Size(460, 185);
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
                 label3.Location = new Point(394, -2);
                 currentformsize = "small";
-
             }
-
         }
 
         private void dgvImage_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int id = Convert.ToInt32(dgvImage.Rows[e.RowIndex].Cells["ID"].FormattedValue);
-
-            //SqlConnection connect = new SqlConnection(connection2);
-            //SqlCommand command = new SqlCommand("SELECT ClipBoardImage FROM Table_4 WHERE ID='" + id + "'", connect);
-            //SqlDataAdapter dp = new(command);
-            //DataSet ds = new("MyImages");
-            //byte[] MyData = new byte[0];
-            //dp.Fill(ds, "MyImages");
-            //DataRow myRow;
-            //myRow = ds.Tables["MyImages"].Rows[0];
-            //MyData = (byte[])myRow["ClipBoardImage"];
-            //MemoryStream stream = new(MyData);
-            ////pictureBox1.Visible = true;
-            ////pictureBox1.BringToFront();
-
-
             label4.Text = id.ToString();
             passer = id.ToString();
-
             Form2 frm2 = new Form2();
             frm2.Show();
 
         }
-
         private void label4_Click_1(object sender, EventArgs e)
         {
             Clipboard.SetText("Bitch");
         }
     }
-
-
 }

@@ -62,7 +62,7 @@ namespace ClipBoardApplication
             // pictureBox1
             // 
             pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            pictureBox1.Location = new System.Drawing.Point(21, 151);
+            pictureBox1.Location = new System.Drawing.Point(21, 155);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new System.Drawing.Size(646, 374);
             pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -72,7 +72,7 @@ namespace ClipBoardApplication
             // richTextBox1
             // 
             richTextBox1.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            richTextBox1.Location = new System.Drawing.Point(20, 151);
+            richTextBox1.Location = new System.Drawing.Point(20, 155);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.Size = new System.Drawing.Size(646, 374);
             richTextBox1.TabIndex = 1;
@@ -82,7 +82,7 @@ namespace ClipBoardApplication
             // 
             label1.AutoSize = true;
             label1.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label1.Location = new System.Drawing.Point(100, 21);
+            label1.Location = new System.Drawing.Point(100, 17);
             label1.Name = "label1";
             label1.Size = new System.Drawing.Size(311, 54);
             label1.TabIndex = 2;
@@ -92,7 +92,7 @@ namespace ClipBoardApplication
             // 
             label2.AutoSize = true;
             label2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            label2.Location = new System.Drawing.Point(112, 75);
+            label2.Location = new System.Drawing.Point(112, 71);
             label2.Name = "label2";
             label2.Size = new System.Drawing.Size(231, 20);
             label2.TabIndex = 5;
@@ -101,7 +101,7 @@ namespace ClipBoardApplication
             // pictureBox2
             // 
             pictureBox2.Image = (System.Drawing.Image)resources.GetObject("pictureBox2.Image");
-            pictureBox2.Location = new System.Drawing.Point(21, 18);
+            pictureBox2.Location = new System.Drawing.Point(21, 14);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new System.Drawing.Size(88, 75);
             pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -110,9 +110,10 @@ namespace ClipBoardApplication
             // 
             // notifyIcon1
             // 
+            notifyIcon1.BalloonTipText = "Monitoring";
+            notifyIcon1.BalloonTipTitle = "KlipBoardKitty";
             notifyIcon1.Icon = (System.Drawing.Icon)resources.GetObject("notifyIcon1.Icon");
             notifyIcon1.Text = "Prrrrrrr";
-            notifyIcon1.Visible = true;
             notifyIcon1.MouseClick += notifyIcon1_MouseClick;
             // 
             // checkBox1
@@ -121,7 +122,7 @@ namespace ClipBoardApplication
             checkBox1.Checked = true;
             checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             checkBox1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            checkBox1.Location = new System.Drawing.Point(30, 107);
+            checkBox1.Location = new System.Drawing.Point(30, 103);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new System.Drawing.Size(110, 24);
             checkBox1.TabIndex = 8;
@@ -142,7 +143,7 @@ namespace ClipBoardApplication
             // 
             // ViewSavedImage
             // 
-            ViewSavedImage.Location = new System.Drawing.Point(511, 560);
+            ViewSavedImage.Location = new System.Drawing.Point(511, 564);
             ViewSavedImage.Name = "ViewSavedImage";
             ViewSavedImage.Size = new System.Drawing.Size(155, 29);
             ViewSavedImage.TabIndex = 10;
@@ -152,11 +153,11 @@ namespace ClipBoardApplication
             // 
             // ViewTextEntries
             // 
-            ViewTextEntries.Location = new System.Drawing.Point(21, 560);
+            ViewTextEntries.Location = new System.Drawing.Point(21, 564);
             ViewTextEntries.Name = "ViewTextEntries";
             ViewTextEntries.Size = new System.Drawing.Size(155, 29);
             ViewTextEntries.TabIndex = 11;
-            ViewTextEntries.Text = "View Text Data";
+            ViewTextEntries.Text = "Text History";
             ViewTextEntries.UseVisualStyleBackColor = true;
             ViewTextEntries.Click += button2_Click;
             // 
@@ -175,7 +176,7 @@ namespace ClipBoardApplication
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             dgvText.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvText.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvText.Location = new System.Drawing.Point(21, 151);
+            dgvText.Location = new System.Drawing.Point(21, 155);
             dgvText.Name = "dgvText";
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
@@ -192,11 +193,11 @@ namespace ClipBoardApplication
             // 
             // ViewImageEntries
             // 
-            ViewImageEntries.Location = new System.Drawing.Point(185, 560);
+            ViewImageEntries.Location = new System.Drawing.Point(185, 564);
             ViewImageEntries.Name = "ViewImageEntries";
             ViewImageEntries.Size = new System.Drawing.Size(155, 29);
             ViewImageEntries.TabIndex = 13;
-            ViewImageEntries.Text = "View Image Data";
+            ViewImageEntries.Text = "Image History";
             ViewImageEntries.UseVisualStyleBackColor = true;
             ViewImageEntries.Click += button3_Click;
             // 
@@ -224,7 +225,7 @@ namespace ClipBoardApplication
             dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             dgvImage.DefaultCellStyle = dataGridViewCellStyle4;
-            dgvImage.Location = new System.Drawing.Point(21, 151);
+            dgvImage.Location = new System.Drawing.Point(21, 155);
             dgvImage.Name = "dgvImage";
             dgvImage.RightToLeft = System.Windows.Forms.RightToLeft.No;
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -246,11 +247,11 @@ namespace ClipBoardApplication
             // 
             // DeleteDuplicateRecords
             // 
-            DeleteDuplicateRecords.Location = new System.Drawing.Point(348, 560);
+            DeleteDuplicateRecords.Location = new System.Drawing.Point(348, 564);
             DeleteDuplicateRecords.Name = "DeleteDuplicateRecords";
             DeleteDuplicateRecords.Size = new System.Drawing.Size(155, 29);
             DeleteDuplicateRecords.TabIndex = 15;
-            DeleteDuplicateRecords.Text = "Delete Duplicates";
+            DeleteDuplicateRecords.Text = "Clean Database";
             DeleteDuplicateRecords.UseVisualStyleBackColor = true;
             DeleteDuplicateRecords.Click += button4_Click;
             // 
@@ -258,7 +259,7 @@ namespace ClipBoardApplication
             // 
             label4.AutoSize = true;
             label4.Font = new System.Drawing.Font("Segoe UI", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            label4.Location = new System.Drawing.Point(21, 528);
+            label4.Location = new System.Drawing.Point(21, 538);
             label4.Name = "label4";
             label4.Size = new System.Drawing.Size(82, 17);
             label4.TabIndex = 18;
@@ -267,8 +268,7 @@ namespace ClipBoardApplication
             // 
             // Form1
             // 
-            AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(692, 604);
             Controls.Add(label4);
