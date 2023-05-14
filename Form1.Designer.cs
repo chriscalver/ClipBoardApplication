@@ -53,12 +53,10 @@ namespace ClipBoardApplication
             dgvImage = new System.Windows.Forms.DataGridView();
             DeleteDuplicateRecords = new System.Windows.Forms.Button();
             label4 = new System.Windows.Forms.Label();
-            pictureBox3 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvText).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dgvImage).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -265,15 +263,7 @@ namespace ClipBoardApplication
             label4.Size = new System.Drawing.Size(82, 17);
             label4.TabIndex = 18;
             label4.Text = "Debug Label";
-            // 
-            // pictureBox3
-            // 
-            pictureBox3.Location = new System.Drawing.Point(430, 47);
-            pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new System.Drawing.Size(236, 98);
-            pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            pictureBox3.TabIndex = 19;
-            pictureBox3.TabStop = false;
+            label4.Click += label4_Click_1;
             // 
             // Form1
             // 
@@ -281,7 +271,6 @@ namespace ClipBoardApplication
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             BackColor = System.Drawing.Color.White;
             ClientSize = new System.Drawing.Size(692, 604);
-            Controls.Add(pictureBox3);
             Controls.Add(label4);
             Controls.Add(DeleteDuplicateRecords);
             Controls.Add(ViewImageEntries);
@@ -310,7 +299,6 @@ namespace ClipBoardApplication
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvText).EndInit();
             ((System.ComponentModel.ISupportInitialize)dgvImage).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -333,7 +321,6 @@ namespace ClipBoardApplication
         private System.Windows.Forms.DataGridView dgvImage;
         private System.Windows.Forms.Button DeleteDuplicateRecords;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
 

@@ -15,6 +15,7 @@ namespace ClipBoardApplication
     {
 
         public static string passer = "";
+        public static string deviceName = Environment.MachineName;
 
         string currentformsize = "";
 
@@ -35,10 +36,6 @@ namespace ClipBoardApplication
         //ClipBoard clipboard;
 
 
-
-
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -48,16 +45,13 @@ namespace ClipBoardApplication
             dgvImage.Visible = true;
 
             this.Size = new Size(460, 195);
-
+            this.TopMost = true;
 
             this.Location = new Point(
             (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
-            (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
+            (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
             //label3.Location = new Point(404, -2);
             //currentformsize = "small";
-
-
-
 
             //GRABS ROWS THAT CONTAIN iMAGES From table4
             //PUTS THE id'S into an array
@@ -77,7 +71,7 @@ namespace ClipBoardApplication
                 }
 
                 //label4.Text = valuesList[4].ToString();
-
+                label4.Text = deviceName;
             }
 
         }
@@ -109,7 +103,7 @@ namespace ClipBoardApplication
                         using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES ('Laptop', @text)";
+                            String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES (deviceName, @text)";
 
                             using (SqlCommand command = new(sql, connection))
                             {
@@ -137,7 +131,7 @@ namespace ClipBoardApplication
                         using (SqlConnection connection = new(connectionString))
                         {
                             connection.Open();
-                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES ('Laptop', @bmimage)";
+                            String sql = "INSERT INTO Table_4 (Device, ClipBoardImage) VALUES (deviceName, @bmimage)";
                             //label4.Text = "";
                             using (SqlCommand command = new(sql, connection))
                             {
@@ -296,14 +290,7 @@ namespace ClipBoardApplication
 
 
 
-        //
 
-
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         // Below is code for mimizing to the system tray
         // 
@@ -338,9 +325,6 @@ namespace ClipBoardApplication
             ChangeClipboardChain(this.Handle, _clipboardViewerNext);
         }
 
-
-
-
         //Shows or hides larger form
 
 
@@ -361,10 +345,10 @@ namespace ClipBoardApplication
             else
             {
 
-                this.Size = new Size(460, 200);
+                this.Size = new Size(460, 195);
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
-                (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2));
+                (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
                 label3.Location = new Point(394, -2);
                 currentformsize = "small";
 
@@ -378,23 +362,17 @@ namespace ClipBoardApplication
 
             //SqlConnection connect = new SqlConnection(connection2);
             //SqlCommand command = new SqlCommand("SELECT ClipBoardImage FROM Table_4 WHERE ID='" + id + "'", connect);
-
             //SqlDataAdapter dp = new(command);
             //DataSet ds = new("MyImages");
-
             //byte[] MyData = new byte[0];
-
             //dp.Fill(ds, "MyImages");
             //DataRow myRow;
             //myRow = ds.Tables["MyImages"].Rows[0];
-
             //MyData = (byte[])myRow["ClipBoardImage"];
-
             //MemoryStream stream = new(MyData);
             ////pictureBox1.Visible = true;
             ////pictureBox1.BringToFront();
 
-            //pictureBox3.Image = Image.FromStream(stream);
 
             label4.Text = id.ToString();
             passer = id.ToString();
@@ -402,19 +380,11 @@ namespace ClipBoardApplication
             Form2 frm2 = new Form2();
             frm2.Show();
 
-            //using (Form2 form2 = new Form2())
-            //{
-            //    if (form2.ShowDialog() == DialogResult.OK)
-            //    {
-            //        //label4.Text = form2.TheValue;
-            //    }
-            //}   
+        }
 
-
-
-
-
-
+        private void label4_Click_1(object sender, EventArgs e)
+        {
+            Clipboard.SetText("Bitch");
         }
     }
 

@@ -50,18 +50,13 @@ namespace ClipBoardApplication
 
             pictureBox1.ContextMenuStrip = menu;
 
-
-
-
-
-
         }
 
         private void Form2_Load(object sender, EventArgs e)
         {
 
             this.Location = new Point(
-            (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2) + 475,
+            (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2) + 600,
             (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 250);
 
 
