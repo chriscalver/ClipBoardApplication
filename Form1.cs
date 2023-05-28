@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Timers;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
@@ -8,14 +9,15 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
+
 
 namespace ClipBoardApplication
 {
 
-
     public partial class Form1 : Form
     {
-
+        public static string favText = "chriscalver@hotmail.com";
         public static string passer = "";
         public static string deviceName = Environment.MachineName;
         string currentformsize = "";
@@ -32,6 +34,7 @@ namespace ClipBoardApplication
         {
             InitializeComponent();
             _clipboardViewerNext = SetClipboardViewer(this.Handle);  // Adds our form to the chain of clipboard viewers.
+
         }
         //ClipBoard clipboard;
 
@@ -45,6 +48,9 @@ namespace ClipBoardApplication
             this.Location = new Point(
             (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
             (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
+
+
+
 
             //GRABS ROWS THAT CONTAIN iMAGES From table4
             //PUTS THE id'S into an array
@@ -74,41 +80,79 @@ namespace ClipBoardApplication
 
             if (m.Msg == WM_DRAWCLIPBOARD)
             {
-                IDataObject iData = Clipboard.GetDataObject();      // Clipboard's data
+                IDataObject iData = Clipboard.GetDataObject();      // Clipboard's data          
+
 
                 if (iData.GetDataPresent(DataFormats.Text))
                 {
                     string text = (string)iData.GetData(DataFormats.Text);
-                    label4.Text = "The above text has been saved";
-                    richTextBox1.BringToFront();
-                    richTextBox1.Visible = true;
-                    richTextBox1.Text = text;
+                    text = text.Replace("\r", string.Empty);
+                    text = text.Replace("\n", string.Empty);
 
-                    try
+                    if (text == favText)
                     {
-                        String connectionString = connection2;
-                        using (SqlConnection connection = new(connectionString))
-                        {
-                            connection.Open();
-                            String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES (@deviceName, @text)";
 
-                            using (SqlCommand command = new(sql, connection))
-                            {
-                                command.Parameters.AddWithValue("@text", text);
-                                command.Parameters.AddWithValue("@deviceName", deviceName);
-                                command.ExecuteNonQuery();
-                            }
-                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        label4.Text = ex.Message;
-                        return;
+                        //label4.Text = "The above text has been saved";
+                        richTextBox1.BringToFront();
+                        richTextBox1.Visible = true;
+                        richTextBox1.Text = text;
+
+
+                        if (string.IsNullOrWhiteSpace(text))
+                        {
+                            //label5.Text = "empty";
+
+                            timer1.Enabled = true;
+                            timer1.Start();
+                            //label5.Text = text + " " + "Has been added";
+                            timer1.Tick += new EventHandler(timer1_Tick);
+                            // True.
+                            //Console.WriteLine("Null or empty");
+                        }
+                        else
+                        {
+                            //label5.Text = "not empty";
+                            try
+                            {
+                                String connectionString = connection2;
+                                using (SqlConnection connection = new(connectionString))
+                                {
+                                    connection.Open();
+                                    String sql = "INSERT INTO Table_5 (Device, ClipBoardText) VALUES (@deviceName, @text)";
+
+                                    using (SqlCommand command = new(sql, connection))
+                                    {
+                                        command.Parameters.AddWithValue("@text", text);
+                                        command.Parameters.AddWithValue("@deviceName", deviceName);
+                                        command.ExecuteNonQuery();
+
+                                        richTextBox1.BringToFront();
+
+                                        timer1.Enabled = true;
+                                        timer1.Start();
+                                        //label5.Text = text + " " + "Has been added";
+                                        timer1.Tick += new EventHandler(timer1_Tick);
+
+                                    }
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                label5.Text = ex.Message;
+                                return;
+                            }
+
+                            //Console.WriteLine("Not null and not empty");
+                        }
+
                     }
                 }
                 else if (iData.GetDataPresent(DataFormats.Bitmap))
                 {
-                    label4.Text = "The above image has been saved";
+                    //label4.Text = "The above image has been saved";
                     pictureBox1.BringToFront();
                     Bitmap image = (Bitmap)iData.GetData(DataFormats.Bitmap);
                     pictureBox1.Visible = true;
@@ -129,17 +173,52 @@ namespace ClipBoardApplication
                                 command.Parameters.AddWithValue("@bmimage", pic);
                                 command.Parameters.AddWithValue("@deviceName", deviceName);
                                 command.ExecuteNonQuery();
+
+                                //label5.Text = "imagebitch";
                             }
                         }
                     }
                     catch (Exception ex)
                     {
-                        label4.Text = ex.Message;
+                        label5.Text = ex.Message;
                         return;
                     }
                 }
             }
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            //label5.Text = "ClipBoard Fav Loaded";
+            System.Windows.Forms.Clipboard.SetText(favText);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //  Buttons Below
 
@@ -161,8 +240,8 @@ namespace ClipBoardApplication
             MemoryStream stream = new(MyData);
             pictureBox1.Visible = true;
             pictureBox1.BringToFront();
-            pictureBox1.Image = Image.FromStream(stream);
-            label4.Text = "Current Favourite Image";
+            pictureBox1.Image = System.Drawing.Image.FromStream(stream);
+            label5.Text = "Current Favourite Image";
         }
 
         //Pulls up Tetxt Data 
@@ -178,7 +257,7 @@ namespace ClipBoardApplication
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvText.DataSource = dtbl;
-                label4.Text = "Clipboard Text History";
+                label5.Text = "Clipboard Text History";
             }
         }
 
@@ -187,6 +266,7 @@ namespace ClipBoardApplication
 
         private void button3_Click(object sender, EventArgs e)
         {
+            dgvImage.BringToFront();
             dgvImage.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvImage.RowHeadersVisible = false;
             using (SqlConnection sqlCon = new SqlConnection(connection2))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
@@ -200,8 +280,8 @@ namespace ClipBoardApplication
             dgvImage.Columns[1].Width = 80;
             dgvImage.Columns[2].Width = 500;
             dgvImage.Visible = true;
-            dgvImage.BringToFront();
-            label4.Text = "Clipboard Image History";
+            
+            label5.Text = "Clipboard Image History";
         }
 
         //Deletes duplicate record in DB
@@ -226,12 +306,12 @@ namespace ClipBoardApplication
                     {
                         command.ExecuteNonQuery();
                     }
-                    label4.Text = "Litterbox Cleaned";
+                    label5.Text = "Litterbox Cleaned";
                 }
             }
             catch (Exception ex)
             {
-                label2.Text = ex.Message;
+                label5.Text = ex.Message;
                 return;
             }
         }
@@ -241,8 +321,12 @@ namespace ClipBoardApplication
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            Clipboard.SetText("chriscalver@hotmail.com");
-            label4.Text = "Current Favourite Text";
+            Clipboard.SetText(favText);
+            richTextBox1.BringToFront();
+            label5.Text = "Current Favourite Text";
+            richTextBox1.Text = favText;
+
+            //label5.Text = "Current Favourite Text is set to" + " " + favText;
         }
 
 
@@ -319,7 +403,7 @@ namespace ClipBoardApplication
         {
             //Clipboard.SetText("Bitch");
         }
-                
+
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
