@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Timers;
 using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -40,10 +37,11 @@ namespace ClipBoardApplication
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            label5.Hide();
             label4.Text = deviceName;
             currentformsize = "small";
             dgvImage.Visible = true;
-            this.Size = new Size(460, 185);
+            this.Size = new Size(460, 188);
             this.TopMost = true;
             this.Location = new Point(
             (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
@@ -55,19 +53,19 @@ namespace ClipBoardApplication
             //GRABS ROWS THAT CONTAIN iMAGES From table4
             //PUTS THE id'S into an array
 
-            using (SqlConnection sqlCon = new SqlConnection(connection2))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
-            {
+            //using (SqlConnection sqlCon = new SqlConnection(connection2))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
+            //{
 
-                var valuesList = new ArrayList(); // recommended 
-                sqlCon.Open();
-                SqlCommand command = new SqlCommand("SELECT ID FROM Table_4", sqlCon);
-                SqlDataReader dataReader = command.ExecuteReader();
-                while (dataReader.Read())
-                {
-                    valuesList.Add(Convert.ToInt32(dataReader[0].ToString()));
-                }
-                //label4.Text = valuesList[4].ToString();                
-            }
+            //    var valuesList = new ArrayList(); // recommended 
+            //    sqlCon.Open();
+            //    SqlCommand command = new SqlCommand("SELECT ID FROM Table_4", sqlCon);
+            //    SqlDataReader dataReader = command.ExecuteReader();
+            //    while (dataReader.Read())
+            //    {
+            //        valuesList.Add(Convert.ToInt32(dataReader[0].ToString()));
+            //    }
+            //    //label4.Text = valuesList[4].ToString();                
+            //}
         }
 
 
@@ -107,7 +105,7 @@ namespace ClipBoardApplication
 
                             timer1.Enabled = true;
                             timer1.Start();
-                            //label5.Text = text + " " + "Has been added";
+                            label5.Text = text + " " + "Has been added";
                             timer1.Tick += new EventHandler(timer1_Tick);
                             // True.
                             //Console.WriteLine("Null or empty");
@@ -128,12 +126,12 @@ namespace ClipBoardApplication
                                         command.Parameters.AddWithValue("@text", text);
                                         command.Parameters.AddWithValue("@deviceName", deviceName);
                                         command.ExecuteNonQuery();
-
+                                        label5.Text = "Latest Text";
                                         richTextBox1.BringToFront();
 
                                         timer1.Enabled = true;
                                         timer1.Start();
-                                        //label5.Text = text + " " + "Has been added";
+                                        label5.Text = text + " " + "Has been added";
                                         timer1.Tick += new EventHandler(timer1_Tick);
 
                                     }
@@ -174,7 +172,7 @@ namespace ClipBoardApplication
                                 command.Parameters.AddWithValue("@deviceName", deviceName);
                                 command.ExecuteNonQuery();
 
-                                //label5.Text = "imagebitch";
+                                label5.Text = "Image has been added";
                             }
                         }
                     }
@@ -185,30 +183,24 @@ namespace ClipBoardApplication
                     }
                 }
             }
+            else
+            {
+                timer1.Enabled = true;
+                timer1.Start();
+                //label5.Text = " " + "Has been added";
+                timer1.Tick += new EventHandler(timer1_Tick);
+            }
+
+
+
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            //label5.Text = "ClipBoard Fav Loaded";
+            label5.Text = "Favorite text loaded into Clipboard";
             System.Windows.Forms.Clipboard.SetText(favText);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -244,6 +236,13 @@ namespace ClipBoardApplication
             label5.Text = "Current Favourite Image";
         }
 
+
+
+
+
+
+
+
         //Pulls up Tetxt Data 
         //Displays in DataGridView
 
@@ -253,13 +252,21 @@ namespace ClipBoardApplication
             using (SqlConnection sqlCon = new SqlConnection(connection2))
             {
                 sqlCon.Open();
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardText FROM Table_5", sqlCon);
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardText FROM Table_5 ORDER BY ID DESC;", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvText.DataSource = dtbl;
                 label5.Text = "Clipboard Text History";
             }
         }
+
+
+
+
+
+
+
+
 
         //Pulls up dIamage Data
         //Displays in DataGridView
@@ -271,7 +278,7 @@ namespace ClipBoardApplication
             dgvImage.RowHeadersVisible = false;
             using (SqlConnection sqlCon = new SqlConnection(connection2))  // SELECT ID, Device, ClipBoardImage FROM Table_4 WHERE ID IN (2, 118, 145, 202, 234, 248, 255, 291, 296)
             {
-                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4", sqlCon);
+                SqlDataAdapter sqlDa = new SqlDataAdapter("SELECT ID, Device, ClipBoardImage FROM Table_4  ORDER BY ID DESC", sqlCon);
                 DataTable dtbl = new DataTable();
                 sqlDa.Fill(dtbl);
                 dgvImage.DataSource = dtbl;
@@ -280,9 +287,14 @@ namespace ClipBoardApplication
             dgvImage.Columns[1].Width = 80;
             dgvImage.Columns[2].Width = 500;
             dgvImage.Visible = true;
-            
+
             label5.Text = "Clipboard Image History";
         }
+
+
+
+
+
 
         //Deletes duplicate record in DB
 
@@ -376,16 +388,19 @@ namespace ClipBoardApplication
                 label3.Location = new Point(605, -2);
                 label3.Text = "[Less...]";
                 currentformsize = "large";
+                label5.Show();
             }
             else
             {
-                this.Size = new Size(460, 185);
+                this.Size = new Size(460, 188);
                 this.Location = new Point(
                 (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
                 (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
                 label3.Text = "[More...]";
                 label3.Location = new Point(365, 1);
                 currentformsize = "small";
+                label5.Hide();
+
 
             }
         }
@@ -417,6 +432,11 @@ namespace ClipBoardApplication
                 ChangeClipboardChain(this.Handle, _clipboardViewerNext);
                 checkBox1.Text = "Monitoring Off";
             }
+        }
+
+        private void timer1_Tick_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
