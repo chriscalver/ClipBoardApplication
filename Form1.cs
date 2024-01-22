@@ -44,8 +44,8 @@ namespace ClipBoardApplication
             this.Size = new Size(460, 188);
             this.TopMost = true;
             this.Location = new Point(
-            (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
-            (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
+   (Screen.PrimaryScreen.Bounds.Size.Width / 2) - (this.Size.Width / 2),
+   (Screen.PrimaryScreen.Bounds.Size.Height / 2) - (this.Size.Height / 2) - 200);
 
 
 
